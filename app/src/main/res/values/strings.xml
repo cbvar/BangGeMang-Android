@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">BangGeMang</string>
+    <string name="app_name">帮个忙</string>
+
+    <string name="commodity_management">商品管理</string>
+    <string name="commodity_classification">商品分类</string>
+    <string name="commodity_unit">商品单位</string>
+    <string name="settlement_center">收银台</string>
+    <string name="system_settings">系统设置</string>
+
+    <string name="coming_soon">即将开放</string>
 </resources>
