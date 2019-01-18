@@ -51,11 +51,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initMenu() {
-        menu.add(new HomeItem(getString(R.string.commodity_management), R.mipmap.ic_launcher));
-        menu.add(new HomeItem(getString(R.string.commodity_classification), R.mipmap.ic_launcher));
-        menu.add(new HomeItem(getString(R.string.commodity_unit), R.mipmap.ic_launcher));
-        menu.add(new HomeItem(getString(R.string.settlement_center), R.mipmap.ic_launcher));
-        menu.add(new HomeItem(getString(R.string.system_settings), R.mipmap.ic_launcher));
+        menu.add(new HomeItem(getString(R.string.goods_management), R.mipmap.icon_goods_management));
+        menu.add(new HomeItem(getString(R.string.goods_category), R.mipmap.icon_goods_category));
+        menu.add(new HomeItem(getString(R.string.goods_unit), R.mipmap.icon_goods_unit));
+        menu.add(new HomeItem(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
+        menu.add(new HomeItem(getString(R.string.system_settings), R.mipmap.icon_system_settings));
+        menu.add(new HomeItem(getString(R.string.more), R.mipmap.icon_more));
     }
 
     private void initTopBar() {
