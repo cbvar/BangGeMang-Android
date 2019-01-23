@@ -37,8 +37,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    private List<HomeItem> menu = new ArrayList<>();
-    private Adapter adapter;
+    private List<HomeItem> mMenu = new ArrayList<>();
+    private RecyclerViewAdapter mAdapter;
 
     @Override
     protected View onCreateView() {
@@ -51,12 +51,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initMenu() {
-        menu.add(new HomeItem(getString(R.string.goods_management), R.mipmap.icon_goods_management));
-        menu.add(new HomeItem(getString(R.string.goods_category), R.mipmap.icon_goods_category));
-        menu.add(new HomeItem(getString(R.string.goods_unit), R.mipmap.icon_goods_unit));
-        menu.add(new HomeItem(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
-        menu.add(new HomeItem(getString(R.string.system_settings), R.mipmap.icon_system_settings));
-        menu.add(new HomeItem(getString(R.string.more), R.mipmap.icon_more));
+        mMenu.add(new HomeItem(getString(R.string.goods_management), R.mipmap.icon_goods_management));
+        mMenu.add(new HomeItem(getString(R.string.goods_category), R.mipmap.icon_goods_category));
+        mMenu.add(new HomeItem(getString(R.string.goods_unit), R.mipmap.icon_goods_unit, GoodsUnitFragment.class));
+        mMenu.add(new HomeItem(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
+        mMenu.add(new HomeItem(getString(R.string.system_settings), R.mipmap.icon_system_settings));
+        mMenu.add(new HomeItem(getString(R.string.more), R.mipmap.icon_more));
     }
 
     private void initTopBar() {
@@ -64,54 +64,65 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        adapter = new Adapter(menu);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new RecyclerViewAdapter(mMenu);
+        mRecyclerView.setAdapter(mAdapter);
         int spanCount = 3;
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         mRecyclerView.addItemDecoration(new ItemDecoration(getContext(), spanCount));
     }
 
-    private static class Adapter extends RecyclerView.Adapter<ViewHolder> {
+    private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-        private List<HomeItem> menuList;
+        private List<HomeItem> mList;
+
+        public RecyclerViewAdapter(List<HomeItem> list) {
+            mList = list;
+        }
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_item_layout, viewGroup, false);
+            final RecyclerViewHolder holder = new RecyclerViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), v.getContext().getString(R.string.coming_soon), Toast.LENGTH_SHORT).show();
+                    int position = holder.getAdapterPosition();
+                    HomeItem item = mList.get(position);
+                    if (item.getFragment() != null) {
+                        try {
+                            BaseFragment fragment = item.getFragment().newInstance();
+                            startFragment(fragment);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(v.getContext(), v.getContext().getString(R.string.coming_soon), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-            ViewHolder holder = new ViewHolder(view);
             return holder;
         }
 
-        public Adapter(List<HomeItem> menuList) {
-            this.menuList = menuList;
-        }
-
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            HomeItem item = menuList.get(i);
+        public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int i) {
+            HomeItem item = mList.get(i);
             viewHolder.itemName.setText(item.getName());
             viewHolder.itemIcon.setImageResource(item.getIconRes());
         }
 
         @Override
         public int getItemCount() {
-            return menuList.size();
+            return mList.size();
         }
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView itemIcon;
         public TextView itemName;
 
-        public ViewHolder(@NonNull View itemView) {
+        public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             itemIcon = (ImageView) itemView.findViewById(R.id.item_icon);
             itemName = (TextView) itemView.findViewById(R.id.item_name);
@@ -141,7 +152,7 @@ public class HomeFragment extends BaseFragment {
                 final View child = parent.getChildAt(i);
                 int position = parent.getChildLayoutPosition(child);
                 int column = (position + 1) % 3;
-                column  = column == 0 ? mSpanCount : column;
+                column = column == 0 ? mSpanCount : column;
 
                 final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                         .getLayoutParams();
@@ -155,7 +166,7 @@ public class HomeFragment extends BaseFragment {
                 mDivider.setBounds(child.getLeft(), top, right, bottom);
                 mDivider.draw(c);
 
-                if(column < mSpanCount) {
+                if (column < mSpanCount) {
                     mDivider.setBounds(left, child.getTop(), right, bottom);
                     mDivider.draw(c);
                 }
@@ -166,9 +177,9 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             int position = parent.getChildLayoutPosition(view);
-            if((position+1) % mSpanCount > 0) {
+            if ((position + 1) % mSpanCount > 0) {
                 outRect.set(0, 0, mDivider.getIntrinsicWidth(), mDivider.getIntrinsicHeight());
-            }else{
+            } else {
                 outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
             }
         }

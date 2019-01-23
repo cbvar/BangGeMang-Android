@@ -32,6 +32,8 @@ dependencies {
     //butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //LitePal
+    implementation 'org.litepal.android:java:3.0.0'
 }
 
 configurations.all {
