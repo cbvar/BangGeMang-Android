@@ -141,10 +141,14 @@ public class GoodsUnitFragment extends BaseFragment {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            //添加成功
-                            handleAddReq(text.toString());
-                            Toast.makeText(getActivity(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
+                            if (addDbItem(text.toString())) {
+                                //添加成功
+                                Toast.makeText(getActivity(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                refreshUnitsView();
+                            } else {
+                                Toast.makeText(getActivity(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "请填入单位名称", Toast.LENGTH_SHORT).show();
                         }
@@ -171,10 +175,14 @@ public class GoodsUnitFragment extends BaseFragment {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            //编辑成功
-                            handleEditReq(item, text.toString());
-                            Toast.makeText(getActivity(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
+                            if (updateDbItem(item, text.toString())) {
+                                //编辑成功
+                                Toast.makeText(getActivity(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                refreshUnitsView();
+                            } else {
+                                Toast.makeText(getActivity(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "请填入单位名称", Toast.LENGTH_SHORT).show();
                         }
@@ -197,8 +205,12 @@ public class GoodsUnitFragment extends BaseFragment {
                 .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        handleDeleteReq(item);
-                        Toast.makeText(getActivity(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
+                        if (deleteDbItem(item)) {
+                            Toast.makeText(getActivity(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
+                            refreshUnitsView();
+                        } else {
+                            Toast.makeText(getActivity(), "该项非空，不允许删除", Toast.LENGTH_SHORT).show();
+                        }
                         dialog.dismiss();
                     }
                 })
@@ -213,27 +225,24 @@ public class GoodsUnitFragment extends BaseFragment {
         }
     }
 
-    private void handleAddReq(String name) {
+    private void refreshUnitsView() {
+        refreshUnits();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private boolean addDbItem(String name) {
         GoodsUnit item = new GoodsUnit();
         item.setName(name);
-        item.save();
-
-        refreshUnits();
-        mAdapter.notifyDataSetChanged();
+        return item.save();
     }
 
-    private void handleEditReq(GoodsUnit item, String name) {
+    private boolean updateDbItem(GoodsUnit item, String name) {
         item.setName(name);
-        item.save();
-
-        refreshUnits();
-        mAdapter.notifyDataSetChanged();
+        return item.save();
     }
 
-    private void handleDeleteReq(GoodsUnit item) {
+    private boolean deleteDbItem(GoodsUnit item) {
         item.delete();
-
-        refreshUnits();
-        mAdapter.notifyDataSetChanged();
+        return true;
     }
 }
