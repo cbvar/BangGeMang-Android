@@ -2,18 +2,18 @@ package com.example.banggemang.model;
 
 import com.example.banggemang.base.BaseFragment;
 
-public class HomeItem {
+public class HomeMenu {
 
     private String mName;
     private int mIconRes;
 
     private Class<? extends BaseFragment> mFragment;
 
-    public HomeItem(String name, int iconRes) {
+    public HomeMenu(String name, int iconRes) {
         this(name, iconRes, null);
     }
 
-    public HomeItem(String name, int iconRes, Class<? extends BaseFragment> fragment) {
+    public HomeMenu(String name, int iconRes, Class<? extends BaseFragment> fragment) {
         mName = name;
         mIconRes = iconRes;
         mFragment = fragment;

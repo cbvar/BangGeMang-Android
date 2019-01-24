@@ -83,7 +83,7 @@ public class GoodsUnitFragment extends BaseFragment {
         @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.goods_unit_item, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_goods_unit, viewGroup, false);
             final RecyclerViewHolder holder = new RecyclerViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

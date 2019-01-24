@@ -1,8 +1,6 @@
 package com.example.banggemang.fragment;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -11,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
-import com.example.banggemang.model.HomeItem;
+import com.example.banggemang.model.HomeMenu;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    private List<HomeItem> mMenu = new ArrayList<>();
+    private List<HomeMenu> mMenu = new ArrayList<>();
     private RecyclerViewAdapter mAdapter;
 
     @Override
@@ -51,12 +48,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initMenu() {
-        mMenu.add(new HomeItem(getString(R.string.goods_management), R.mipmap.icon_goods_management));
-        mMenu.add(new HomeItem(getString(R.string.goods_category), R.mipmap.icon_goods_category));
-        mMenu.add(new HomeItem(getString(R.string.goods_unit), R.mipmap.icon_goods_unit, GoodsUnitFragment.class));
-        mMenu.add(new HomeItem(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
-        mMenu.add(new HomeItem(getString(R.string.system_settings), R.mipmap.icon_system_settings));
-        mMenu.add(new HomeItem(getString(R.string.more), R.mipmap.icon_more));
+        mMenu.add(new HomeMenu(getString(R.string.goods_management), R.mipmap.icon_goods_management));
+        mMenu.add(new HomeMenu(getString(R.string.goods_category), R.mipmap.icon_goods_category));
+        mMenu.add(new HomeMenu(getString(R.string.goods_unit), R.mipmap.icon_goods_unit, GoodsUnitFragment.class));
+        mMenu.add(new HomeMenu(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
+        mMenu.add(new HomeMenu(getString(R.string.system_settings), R.mipmap.icon_system_settings));
+        mMenu.add(new HomeMenu(getString(R.string.more), R.mipmap.icon_more));
     }
 
     private void initTopBar() {
@@ -73,22 +70,22 @@ public class HomeFragment extends BaseFragment {
 
     private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-        private List<HomeItem> mList;
+        private List<HomeMenu> mList;
 
-        public RecyclerViewAdapter(List<HomeItem> list) {
+        public RecyclerViewAdapter(List<HomeMenu> list) {
             mList = list;
         }
 
         @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_item_layout, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_menu, viewGroup, false);
             final RecyclerViewHolder holder = new RecyclerViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = holder.getAdapterPosition();
-                    HomeItem item = mList.get(position);
+                    HomeMenu item = mList.get(position);
                     if (item.getFragment() != null) {
                         try {
                             BaseFragment fragment = item.getFragment().newInstance();
@@ -106,7 +103,7 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewHolder viewHolder, int i) {
-            HomeItem item = mList.get(i);
+            HomeMenu item = mList.get(i);
             viewHolder.itemName.setText(item.getName());
             viewHolder.itemIcon.setImageResource(item.getIconRes());
         }
