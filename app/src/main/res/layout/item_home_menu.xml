@@ -18,8 +18,8 @@
         android:id="@+id/item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal|top"
+        android:gravity="center"
         android:lines="2"
         android:textColor="?attr/qmui_config_color_gray_6"
-        android:textSize="11sp"/>
+        android:textSize="15sp"/>
 </LinearLayout>

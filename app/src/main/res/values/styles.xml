@@ -36,6 +36,7 @@
         <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_height">48dp</item>
         <item name="qmui_topbar_image_btn_height">48dp</item>
+        <item name="qmui_topbar_title_text_size">21sp</item>
     </style>
 
 </resources>
