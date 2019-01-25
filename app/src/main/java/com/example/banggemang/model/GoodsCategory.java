@@ -5,10 +5,20 @@ import org.litepal.crud.LitePalSupport;
 
 public class GoodsCategory extends LitePalSupport {
 
-    @Column(unique = true, defaultValue = "unknown")
+    private int id;
+
+    @Column(unique = true)
     private String name;
 
     private int pid;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
