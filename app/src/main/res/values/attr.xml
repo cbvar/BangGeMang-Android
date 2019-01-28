@@ -2,4 +2,7 @@
 <resources>
     <attr name="app_primary_color" format="color"/> <!-- topbar -->
     <attr name="app_content_bg_color" format="color"/> <!-- content-->
+    <!-- double list -->
+    <attr name="app_double_list_first_bg_color" format="color"/>
+    <attr name="app_double_list_second_bg_color" format="color"/>
 </resources>

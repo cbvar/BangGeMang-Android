@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
 import com.example.banggemang.model.GoodsCategory;
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -126,9 +127,9 @@ public class GoodsCategoryFragment extends BaseFragment {
             TextView textView = (TextView) viewHolder.itemView;
             textView.setText(item.getName());
             if (viewHolder.getAdapterPosition() == mOpened) {
-                textView.setBackground(getResources().getDrawable(R.drawable.qmui_list_item_bg_with_border_bottom_inset_left_pressed));
+                textView.setBackgroundColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_double_list_second_bg_color));
             } else {
-                textView.setBackground(getResources().getDrawable(R.drawable.qmui_s_list_item_bg_with_border_bottom_inset_left));
+                textView.setBackgroundColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_double_list_first_bg_color));
             }
         }
 
@@ -149,7 +150,7 @@ public class GoodsCategoryFragment extends BaseFragment {
         @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_goods_unit, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_goods_category, viewGroup, false);
             final RecyclerViewHolder holder = new RecyclerViewHolder(view);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -169,6 +170,7 @@ public class GoodsCategoryFragment extends BaseFragment {
             GoodsCategory item = mList.get(i);
             TextView textView = (TextView) viewHolder.itemView;
             textView.setText(item.getName());
+            textView.setBackgroundColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_double_list_second_bg_color));
         }
 
         @Override
@@ -185,21 +187,21 @@ public class GoodsCategoryFragment extends BaseFragment {
     }
 
     private void showAddMenuDialog() {
-        final String[] items = new String[]{"一级分类", "二级分类"};
+        final String[] items;
+        if (mOpened != NONE) {
+            items = new String[]{"一级分类", "二级分类"};
+        } else {
+            items = new String[]{"一级分类"};
+        }
         new QMUIDialog.MenuDialogBuilder(getActivity())
                 .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if (which == 1 && mOpened == NONE) {
-                            showTip("请先选择一级分类项");
-                        } else {
-                            mLevel = (which == 0) ? 1 : 2;
-                            showAddDialog();
-                        }
+                        mLevel = (which == 0) ? 1 : 2;
+                        showAddDialog();
                     }
                 })
-                .setCancelable(false)
                 .create(mDialogStyle).show();
     }
 
@@ -242,7 +244,6 @@ public class GoodsCategoryFragment extends BaseFragment {
                         }
                     }
                 })
-                .setCancelable(false)
                 .create(mDialogStyle).show();
     }
 
@@ -260,7 +261,6 @@ public class GoodsCategoryFragment extends BaseFragment {
                         }
                     }
                 })
-                .setCancelable(false)
                 .create(mDialogStyle).show();
     }
 
@@ -307,7 +307,6 @@ public class GoodsCategoryFragment extends BaseFragment {
                         }
                     }
                 })
-                .setCancelable(false)
                 .create(mDialogStyle).show();
     }
 
@@ -350,7 +349,6 @@ public class GoodsCategoryFragment extends BaseFragment {
                         dialog.dismiss();
                     }
                 })
-                .setCancelable(false)
                 .create(mDialogStyle).show();
     }
 
@@ -359,6 +357,13 @@ public class GoodsCategoryFragment extends BaseFragment {
         List<GoodsCategory> data = LitePal.where("pid = 0").find(GoodsCategory.class);
         for (GoodsCategory item : data) {
             mCategories1.add(item);
+        }
+        if (mCategories1.size() > 0) {
+            if (mOpened == NONE || mCategories1.size() - 1 < mOpened) {
+                mOpened = 0;
+            }
+        } else {
+            mOpened = NONE;
         }
     }
 
