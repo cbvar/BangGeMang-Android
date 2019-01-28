@@ -1,5 +1,6 @@
 package com.example.banggemang.fragment;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private RecyclerViewAdapter mAdapter;
     private List<GoodsUnit> mUnits = new ArrayList<>();
-    private int mCurrentDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
+    private int mDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
 
     @Override
     protected View onCreateView() {
@@ -85,20 +86,12 @@ public class GoodsUnitFragment extends BaseFragment {
         public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_goods_unit, viewGroup, false);
             final RecyclerViewHolder holder = new RecyclerViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //显示编辑对话框
-                    int position = holder.getAdapterPosition();
-                    showEditDialog(position);
-                }
-            });
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    //显示删除对话框
+                    //显示编辑删除菜单
                     int position = holder.getAdapterPosition();
-                    showDeleteDialog(position);
+                    showEditAndDeleteMenuDialog(position);
                     return true;
                 }
             });
@@ -154,7 +147,24 @@ public class GoodsUnitFragment extends BaseFragment {
                         }
                     }
                 })
-                .create(mCurrentDialogStyle).show();
+                .create(mDialogStyle).show();
+    }
+
+    private void showEditAndDeleteMenuDialog(final int position) {
+        final String[] items = new String[]{"编辑", "删除"};
+        new QMUIDialog.MenuDialogBuilder(getActivity())
+                .addItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (which == 0) {
+                            showEditDialog(position);
+                        } else {
+                            showDeleteDialog(position);
+                        }
+                    }
+                })
+                .create(mDialogStyle).show();
     }
 
     private void showEditDialog(final int position) {
@@ -188,14 +198,14 @@ public class GoodsUnitFragment extends BaseFragment {
                         }
                     }
                 })
-                .create(mCurrentDialogStyle).show();
+                .create(mDialogStyle).show();
     }
 
     private void showDeleteDialog(final int position) {
         final GoodsUnit item = mUnits.get(position);
         new QMUIDialog.MessageDialogBuilder(getActivity())
                 .setTitle("删除")
-                .setMessage("确定要删除" + item.getName() + "吗？")
+                .setMessage("确定要删除［" + item.getName() + "］吗？")
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
@@ -214,7 +224,7 @@ public class GoodsUnitFragment extends BaseFragment {
                         dialog.dismiss();
                     }
                 })
-                .create(mCurrentDialogStyle).show();
+                .create(mDialogStyle).show();
     }
 
     private void refreshUnits() {
