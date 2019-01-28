@@ -3,7 +3,7 @@
     android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="?attr/qmui_s_list_item_bg_with_border_bottom_inset_left"
+    android:background="?attr/qmui_s_list_item_bg_with_border_bottom_inset"
     android:gravity="center"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingLeft="?attr/qmui_content_padding_horizontal"
