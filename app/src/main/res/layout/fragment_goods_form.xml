@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/qmui_topbar_height"
+        android:background="@color/qmui_config_color_background"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/FormItem"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_bottom">
+
+                <TextView style="@style/FormItemRequired" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="商品名" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:hint="请输入商品名" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormItem">
+
+                <TextView style="@style/FormItemRequired" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="商品分类" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:enabled="false"
+                    android:hint="请选择 >" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormItem">
+
+                <TextView style="@style/FormItemRequired" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="商品单位" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:enabled="false"
+                    android:hint="请选择 >" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormItem">
+
+                <TextView
+                    style="@style/FormItemRequired"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="进货价(元)" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:hint="请输入进货价"
+                    android:inputType="number|numberDecimal" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormItem">
+
+                <TextView
+                    style="@style/FormItemRequired"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="零售价(元)" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:hint="请输入零售价"
+                    android:inputType="number|numberDecimal" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormItem">
+
+                <TextView
+                    style="@style/FormItemRequired"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/FormItemTitle"
+                    android:text="条码" />
+
+                <android.support.v4.widget.Space style="@style/FormItemSpace" />
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:hint="请输入条码" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/FormItem"
+                android:layout_height="wrap_content"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_top"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="147px">
+
+                    <TextView
+                        style="@style/FormItemRequired"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        style="@style/FormItemTitle"
+                        android:text="描述" />
+
+                    <android.support.v4.widget.Space style="@style/FormItemSpace" />
+                </LinearLayout>
+
+                <EditText
+                    style="@style/FormItemEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="294px"
+                    android:gravity="left"
+                    android:hint="请输入描述"
+                    android:paddingLeft="25px"
+                    android:paddingTop="0px"
+                    android:singleLine="false" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true" />
+
+</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

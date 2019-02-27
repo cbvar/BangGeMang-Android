@@ -72,7 +72,7 @@ public class GoodsCategoryFragment extends BaseFragment {
                     }
                 });
 
-        mTopBar.setTitle(R.string.goods_unit);
+        mTopBar.setTitle(R.string.goods_category);
     }
 
     private void initRecyclerView() {

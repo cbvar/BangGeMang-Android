@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initMenu() {
-        mMenu.add(new HomeMenu(getString(R.string.goods_management), R.mipmap.icon_goods_management));
+        mMenu.add(new HomeMenu(getString(R.string.goods_management), R.mipmap.icon_goods_management, GoodsFormFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.goods_category), R.mipmap.icon_goods_category, GoodsCategoryFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.goods_unit), R.mipmap.icon_goods_unit, GoodsUnitFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
