@@ -34,6 +34,7 @@
     <list>
         <mapping class="com.example.banggemang.model.GoodsUnit" />
         <mapping class="com.example.banggemang.model.GoodsCategory" />
+        <mapping class="com.example.banggemang.model.Goods" />
     </list>
 
     <!--

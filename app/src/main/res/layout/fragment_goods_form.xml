@@ -29,6 +29,7 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/name"
                     android:hint="请输入商品名" />
             </LinearLayout>
 
@@ -44,8 +45,13 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/category"
                     android:enabled="false"
-                    android:hint="请选择 >" />
+                    android:hint="请选择" />
+
+                <ImageView
+                    style="@style/FormItemImageView"
+                    android:src="@mipmap/icon_right" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -60,8 +66,13 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/unit"
                     android:enabled="false"
-                    android:hint="请选择 >" />
+                    android:hint="请选择" />
+
+                <ImageView
+                    style="@style/FormItemImageView"
+                    android:src="@mipmap/icon_right" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -78,8 +89,9 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/cost_price"
                     android:hint="请输入进货价"
-                    android:inputType="number|numberDecimal" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -96,8 +108,9 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/retail_price"
                     android:hint="请输入零售价"
-                    android:inputType="number|numberDecimal" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -114,7 +127,12 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/bar_code"
                     android:hint="请输入条码" />
+
+                <ImageView
+                    style="@style/FormItemImageView"
+                    android:src="@mipmap/icon_scan" />
             </LinearLayout>
 
             <LinearLayout
@@ -140,6 +158,7 @@
 
                 <EditText
                     style="@style/FormItemEditText"
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="294px"
                     android:gravity="left"
