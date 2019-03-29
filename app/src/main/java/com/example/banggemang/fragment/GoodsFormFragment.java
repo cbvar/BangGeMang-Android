@@ -1,6 +1,7 @@
 package com.example.banggemang.fragment;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ public class GoodsFormFragment extends BaseFragment {
     EditText mETDescription;
 
     private static final int NONE = -1;
+    private int mGoodsId = NONE;
     private int mCategoryId1 = NONE;
     private int mCategoryId2 = NONE;
     private int mUnitId = NONE;
@@ -50,6 +52,10 @@ public class GoodsFormFragment extends BaseFragment {
 
     @Override
     protected View onCreateView() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mGoodsId = bundle.getInt("id");
+        }
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods_form, null);
         ButterKnife.bind(this, view);
         initTopBar();
@@ -96,6 +102,23 @@ public class GoodsFormFragment extends BaseFragment {
         });
         mETCostPrice.addTextChangedListener(new TextWatchers.money());
         mETRetailPrice.addTextChangedListener(new TextWatchers.money());
+        if (mGoodsId != NONE) {
+            Goods goods = LitePal.find(Goods.class, mGoodsId);
+            mETName.setText(goods.getName());
+            GoodsCategory category2 = LitePal.find(GoodsCategory.class, goods.getCategoryId());
+            GoodsCategory category1 = LitePal.find(GoodsCategory.class, category2.getPid());
+            mCategoryId1 = category1.getId();
+            mCategoryId2 = category2.getId();
+            String category = category1.getName() + " - " + category2.getName();
+            mETCategory.setText(category);
+            GoodsUnit unit = LitePal.find(GoodsUnit.class, goods.getUnitId());
+            mUnitId = unit.getId();
+            mETUnit.setText(unit.getName());
+            mETCostPrice.setText(Float.toString(goods.getCostPrice()));
+            mETRetailPrice.setText(Float.toString(goods.getRetailPrice()));
+            mETBarCode.setText(goods.getBarCode());
+            mETDescription.setText(goods.getDescription());
+        }
     }
 
     private void showCategoryDialog() {
@@ -154,7 +177,8 @@ public class GoodsFormFragment extends BaseFragment {
                 GoodsCategory current = categories.get(which);
                 mCategoryId1 = parent.getId();
                 mCategoryId2 = current.getId();
-                mETCategory.setText(parent.getName() + " - " + current.getName());
+                String category = parent.getName() + " - " + current.getName();
+                mETCategory.setText(category);
                 dialog.dismiss();
             }
         })
@@ -204,7 +228,12 @@ public class GoodsFormFragment extends BaseFragment {
             return false;
         }
 
-        Goods goods = new Goods();
+        Goods goods = null;
+        if (mGoodsId == NONE) {
+            goods = new Goods();
+        } else {
+            goods = LitePal.find(Goods.class, mGoodsId);
+        }
         goods.setName(name);
         goods.setCategoryId(mCategoryId2);
         goods.setUnitId(mUnitId);
