@@ -126,8 +126,10 @@ public class GoodsCategoryFragment extends BaseFragment {
             TextView textView = (TextView) viewHolder.itemView;
             textView.setText(item.getName());
             if (viewHolder.getAdapterPosition() == mOpened) {
+                textView.setTextColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_primary_color));
                 textView.setBackgroundColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_double_list_second_bg_color));
             } else {
+                textView.setTextColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.qmui_config_color_gray_4));
                 textView.setBackgroundColor(QMUIResHelper.getAttrColor(textView.getContext(), R.attr.app_double_list_first_bg_color));
             }
         }
