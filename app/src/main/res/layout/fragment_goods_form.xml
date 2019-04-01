@@ -46,7 +46,7 @@
                 <EditText
                     style="@style/FormItemEditText"
                     android:id="@+id/category"
-                    android:enabled="false"
+                    android:focusableInTouchMode="false"
                     android:hint="请选择" />
 
                 <ImageView
@@ -67,7 +67,7 @@
                 <EditText
                     style="@style/FormItemEditText"
                     android:id="@+id/unit"
-                    android:enabled="false"
+                    android:focusableInTouchMode="false"
                     android:hint="请选择" />
 
                 <ImageView

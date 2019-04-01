@@ -14,12 +14,11 @@ import android.widget.Toast;
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
 import com.example.banggemang.model.GoodsCategory;
+import com.example.banggemang.util.Api;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,7 +289,7 @@ public class GoodsCategoryFragment extends BaseFragment {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            if (updateDbItem(item, text.toString())) {
+                            if (Api.updateGoodsCategory(item.getId(), text.toString())) {
                                 //编辑成功
                                 showTip("编辑成功");
                                 if (mLevel == 1) {
@@ -332,7 +331,7 @@ public class GoodsCategoryFragment extends BaseFragment {
                 .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        if (deleteDbItem(item)) {
+                        if (Api.deleteGoodsCategory(item.getId())) {
                             showTip("删除成功");
                             if (mLevel == 1) {
                                 if (mOpened == mSelected) {
@@ -354,10 +353,8 @@ public class GoodsCategoryFragment extends BaseFragment {
 
     private void refreshCategory1() {
         mCategories1.clear();
-        List<GoodsCategory> data = LitePal.where("pid = 0").find(GoodsCategory.class);
-        for (GoodsCategory item : data) {
-            mCategories1.add(item);
-        }
+        List<GoodsCategory> data = Api.getGoodsCategoryList();
+        mCategories1.addAll(data);
         if (mCategories1.size() > 0) {
             if (mOpened == NONE || mCategories1.size() - 1 < mOpened) {
                 mOpened = 0;
@@ -371,10 +368,8 @@ public class GoodsCategoryFragment extends BaseFragment {
         mCategories2.clear();
         if (mOpened != NONE) {
             GoodsCategory parent = mCategories1.get(mOpened);
-            List<GoodsCategory> Data = LitePal.where("pid = ?", Integer.toString(parent.getId())).find(GoodsCategory.class);
-            for (GoodsCategory item : Data) {
-                mCategories2.add(item);
-            }
+            List<GoodsCategory> data = Api.getGoodsCategoryList(parent.getId());
+            mCategories2.addAll(data);
         }
     }
 
@@ -389,29 +384,12 @@ public class GoodsCategoryFragment extends BaseFragment {
     }
 
     private boolean addDbItem(String name) {
-        GoodsCategory item = new GoodsCategory();
-        item.setName(name);
         if (mLevel == 2) {
             GoodsCategory parent = mCategories1.get(mOpened);
-            item.setPid(parent.getId());
+            return Api.addGoodsCategory(name, parent.getId());
+        } else {
+            return Api.addGoodsCategory(name);
         }
-        return item.save();
-    }
-
-    private boolean updateDbItem(GoodsCategory item, String name) {
-        item.setName(name);
-        return item.save();
-    }
-
-    private boolean deleteDbItem(GoodsCategory item) {
-        if (mLevel == 1) {
-            List<GoodsCategory> data = LitePal.where("pid = ?", Integer.toString(item.getId())).find(GoodsCategory.class);
-            if (data.size() > 0) {
-                return false;
-            }
-        }
-        item.delete();
-        return true;
     }
 
     private void showTip(String message) {

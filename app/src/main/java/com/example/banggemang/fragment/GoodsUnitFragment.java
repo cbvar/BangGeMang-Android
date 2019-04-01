@@ -14,11 +14,10 @@ import android.widget.Toast;
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
 import com.example.banggemang.model.GoodsUnit;
+import com.example.banggemang.util.Api;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +133,7 @@ public class GoodsUnitFragment extends BaseFragment {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            if (addDbItem(text.toString())) {
+                            if (Api.addGoodsUnit(text.toString())) {
                                 //添加成功
                                 Toast.makeText(getActivity(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
@@ -185,7 +184,7 @@ public class GoodsUnitFragment extends BaseFragment {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-                            if (updateDbItem(item, text.toString())) {
+                            if (Api.updateGoodsUnit(item.getId(), text.toString())) {
                                 //编辑成功
                                 Toast.makeText(getActivity(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
@@ -215,7 +214,7 @@ public class GoodsUnitFragment extends BaseFragment {
                 .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        if (deleteDbItem(item)) {
+                        if (Api.deleteGoodsUnit(item.getId())) {
                             Toast.makeText(getActivity(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
                             refreshUnitsView();
                         } else {
@@ -229,30 +228,12 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private void refreshUnits() {
         mUnits.clear();
-        List<GoodsUnit> Data = LitePal.findAll(GoodsUnit.class);
-        for (GoodsUnit item : Data) {
-            mUnits.add(item);
-        }
+        List<GoodsUnit> data = Api.getGoodsUnitList();
+        mUnits.addAll(data);
     }
 
     private void refreshUnitsView() {
         refreshUnits();
         mAdapter.notifyDataSetChanged();
-    }
-
-    private boolean addDbItem(String name) {
-        GoodsUnit item = new GoodsUnit();
-        item.setName(name);
-        return item.save();
-    }
-
-    private boolean updateDbItem(GoodsUnit item, String name) {
-        item.setName(name);
-        return item.save();
-    }
-
-    private boolean deleteDbItem(GoodsUnit item) {
-        item.delete();
-        return true;
     }
 }
