@@ -81,7 +81,11 @@ public class GoodsFormFragment extends BaseFragment {
                     }
                 });
 
-        mTopBar.setTitle(R.string.add_goods);
+        if (mGoodsId == NONE) {
+            mTopBar.setTitle(R.string.add_goods);
+        } else {
+            mTopBar.setTitle(R.string.edit_goods);
+        }
     }
 
     private void initForm() {

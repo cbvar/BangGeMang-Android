@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
+import com.example.banggemang.model.GoodsCategory;
+import com.example.banggemang.model.GoodsUnit;
 import com.example.banggemang.util.Api;
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -30,9 +33,23 @@ public class GoodsFragment extends BaseFragment {
     QMUITopBarLayout mTopBar;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_scan_code)
+    TextView mTVScanCode;
+    @BindView(R.id.tv_category)
+    TextView mTVCategory;
+    @BindView(R.id.tv_unit)
+    TextView mTVUnit;
+    @BindView(R.id.tv_filter)
+    TextView mTVFilter;
 
     private RecyclerViewAdapter mAdapter;
     private List<Api.GoodsItem> mItems = new ArrayList<>();
+    private static final int NONE = -1;
+    private int mCategoryId1 = NONE;
+    private int mCategoryId2 = NONE;
+    private String mCategoryText = "";
+    private int mUnitId = NONE;
+    private String mUnitText = "";
     private int mDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
 
     @Override
@@ -40,6 +57,7 @@ public class GoodsFragment extends BaseFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods, null);
         ButterKnife.bind(this, view);
         initTopBar();
+        initFilter();
         initRecyclerView();
         return view;
     }
@@ -68,6 +86,21 @@ public class GoodsFragment extends BaseFragment {
                 });
 
         mTopBar.setTitle(R.string.goods_management);
+    }
+
+    private void initFilter() {
+        mTVCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCategoryDialog();
+            }
+        });
+        mTVUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUnitDialog();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -108,11 +141,11 @@ public class GoodsFragment extends BaseFragment {
             TextView tvName = viewHolder.itemView.findViewById(R.id.name);
             tvName.setText(item.name);
             TextView tvUnit = viewHolder.itemView.findViewById(R.id.unit);
-            tvUnit.setText("单位：" + item.unit);
+            tvUnit.setText(String.format(getString(R.string.goods_list_unit), item.unit));
             TextView tvCostPrice = viewHolder.itemView.findViewById(R.id.cost_price);
-            tvCostPrice.setText("进货价：" + item.costPrice);
+            tvCostPrice.setText(String.format(getString(R.string.goods_list_cost_price), item.costPrice));
             TextView tvRetailPrice = viewHolder.itemView.findViewById(R.id.retail_price);
-            tvRetailPrice.setText("零售价：" + item.retailPrice);
+            tvRetailPrice.setText(String.format(getString(R.string.goods_list_retail_price), item.retailPrice));
         }
 
         @Override
@@ -193,9 +226,114 @@ public class GoodsFragment extends BaseFragment {
                 .create(mDialogStyle).show();
     }
 
+    private void showCategoryDialog() {
+        final List<GoodsCategory> categories = Api.getGoodsCategoryList();
+
+        int length = categories.size();
+        final String[] items = new String[length + 1];
+        items[0] = getString(R.string.all);
+        int checkedIndex = 0;
+        for (int i = 0; i < length; ++i) {
+            items[i + 1] = categories.get(i).getName();
+            if (categories.get(i).getId() == mCategoryId1) {
+                checkedIndex = i + 1;
+            }
+        }
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        builder.setCheckedIndex(checkedIndex);
+        builder.addItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (which == 0) {
+                    mCategoryId1 = NONE;
+                    mCategoryId2 = NONE;
+                    mCategoryText = "";
+                    refreshFilterView();
+                    refreshGoodsView();
+                } else {
+                    showCategoryDialog(categories.get(which - 1));
+                }
+            }
+        })
+                .create(mDialogStyle).show();
+    }
+
+    private void showCategoryDialog(final GoodsCategory parent) {
+        final List<GoodsCategory> categories = Api.getGoodsCategoryList(parent.getId());
+
+        int length = categories.size();
+        final String[] items = new String[length + 1];
+        items[0] = getString(R.string.all);
+        int checkedIndex = 0;
+        for (int i = 0; i < length; ++i) {
+            items[i + 1] = categories.get(i).getName();
+            if (categories.get(i).getId() == mCategoryId2) {
+                checkedIndex = i + 1;
+            }
+        }
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        builder.setCheckedIndex(checkedIndex);
+        builder.addItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mCategoryId1 = parent.getId();
+                if (which == 0) {
+                    mCategoryId2 = NONE;
+                    mCategoryText = parent.getName();
+                } else {
+                    GoodsCategory current = categories.get(which - 1);
+                    mCategoryId2 = current.getId();
+                    mCategoryText = current.getName();
+                }
+                refreshFilterView();
+                refreshGoodsView();
+                dialog.dismiss();
+            }
+        })
+                .create(mDialogStyle).show();
+    }
+
+    private void showUnitDialog() {
+        final List<GoodsUnit> units = Api.getGoodsUnitList();
+
+        int length = units.size();
+
+        final String[] items = new String[length + 1];
+        items[0] = getString(R.string.all);
+        int checkedIndex = 0;
+        for (int i = 0; i < length; ++i) {
+            items[i + 1] = units.get(i).getName();
+            if (units.get(i).getId() == mUnitId) {
+                checkedIndex = i + 1;
+            }
+        }
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        builder.setCheckedIndex(checkedIndex);
+        builder.addItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    mUnitId = NONE;
+                    mUnitText = "";
+                } else {
+                    GoodsUnit current = units.get(which - 1);
+                    mUnitId = current.getId();
+                    mUnitText = current.getName();
+                }
+                refreshFilterView();
+                refreshGoodsView();
+                dialog.dismiss();
+            }
+        })
+                .create(mDialogStyle).show();
+    }
+
     private void refreshGoods() {
         mItems.clear();
-        List<Api.GoodsItem> Data = Api.getGoodsList();
+        int categoryId = mCategoryId1 == NONE ? Api.INT_NONE : mCategoryId2 == NONE ? mCategoryId1 : mCategoryId2;
+        int unitId = mUnitId == NONE ? Api.INT_NONE : mUnitId;
+        List<Api.GoodsItem> Data = Api.getGoodsList(categoryId, unitId);
         for (Api.GoodsItem item : Data) {
             mItems.add(item);
         }
@@ -206,4 +344,32 @@ public class GoodsFragment extends BaseFragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void refreshFilterView() {
+        if (mCategoryId1 == NONE) {
+            mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.qmui_config_color_black));
+        } else {
+            mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.app_primary_color));
+        }
+        if (mUnitId == NONE) {
+            mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.qmui_config_color_black));
+        } else {
+            mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.app_primary_color));
+        }
+        if (mCategoryId1 == NONE && mUnitId == NONE) {
+            mTVFilter.setVisibility(View.GONE);
+        } else {
+            String text;
+            if (mCategoryId1 != NONE && mUnitId != NONE) {
+                text = String.format(getString(R.string.goods_list_filter_both), mCategoryText, mUnitText);
+            } else {
+                if (mCategoryId1 != NONE) {
+                    text = String.format(getString(R.string.goods_list_filter_category), mCategoryText);
+                } else {
+                    text = String.format(getString(R.string.goods_list_filter_unit), mUnitText);
+                }
+            }
+            mTVFilter.setText(text);
+            mTVFilter.setVisibility(View.VISIBLE);
+        }
+    }
 }

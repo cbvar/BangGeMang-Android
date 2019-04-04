@@ -11,6 +11,8 @@ import java.util.List;
 
 public class Api {
 
+    public static final int INT_NONE = -1;
+
     public static class GoodsItem {
         public int id;
         public String name;
@@ -90,9 +92,41 @@ public class Api {
         return item.delete() > 0;
     }
 
-    public static List<GoodsItem> getGoodsList() {
-        List<Goods> items = LitePal.findAll(Goods.class);
+    public static List<GoodsItem> getGoodsList(int categoryId, int unitId) {
+        List<Goods> items;
         List<GoodsItem> data = new ArrayList<>();
+        if (categoryId == INT_NONE && unitId == INT_NONE) {
+            items = LitePal.findAll(Goods.class);
+        } else {
+            String conditions = "";
+            if (categoryId != INT_NONE) {
+                GoodsCategory category = LitePal.find(GoodsCategory.class, categoryId);
+                if (category.getPid() != 0) {
+                    conditions += "categoryId = " + Integer.toString(categoryId);
+                } else {
+                    List<GoodsCategory> categories = LitePal.where("pid = ?", Integer.toString(category.getId())).find(GoodsCategory.class);
+                    int length = categories.size();
+                    if (length == 0) {
+                        return data;
+                    }
+                    conditions += "categoryId IN (";
+                    for (int i = 0; i < length; ++i) {
+                        conditions += Integer.toString(categories.get(i).getId());
+                        if (i != length - 1) {
+                            conditions += ",";
+                        }
+                    }
+                    conditions += ")";
+                }
+            }
+            if (categoryId != INT_NONE && unitId != INT_NONE) {
+                conditions += " AND ";
+            }
+            if (unitId != INT_NONE) {
+                conditions += "unitId = " + Integer.toString(unitId);
+            }
+            items = LitePal.where(conditions).find(Goods.class);
+        }
         for (Goods item : items) {
             GoodsUnit unit = LitePal.find(GoodsUnit.class, item.getUnitId());
 
