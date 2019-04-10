@@ -1,6 +1,9 @@
 package com.example.banggemang.fragment;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
+import com.example.banggemang.model.Goods;
 import com.example.banggemang.model.GoodsCategory;
 import com.example.banggemang.model.GoodsUnit;
 import com.example.banggemang.util.Api;
@@ -51,6 +55,9 @@ public class GoodsFragment extends BaseFragment {
     private int mUnitId = NONE;
     private String mUnitText = "";
     private int mDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
+
+    private static final int REQUEST_CODE_SCAN_CODE = 1;
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected View onCreateView() {
@@ -99,6 +106,13 @@ public class GoodsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 showUnitDialog();
+            }
+        });
+        mTVScanCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] perms = {Manifest.permission.CAMERA};
+                requestPermissions(perms, REQUEST_CODE_PERMISSION);
             }
         });
     }
@@ -169,7 +183,8 @@ public class GoodsFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         if (which == 0) {
-                            startEditFragment(position);
+                            Api.GoodsItem item = mItems.get(position);
+                            startEditFragment(item.id);
                         } else {
                             showDeleteDialog(position);
                         }
@@ -187,12 +202,11 @@ public class GoodsFragment extends BaseFragment {
         }
     }
 
-    private void startEditFragment(final int position) {
+    private void startEditFragment(int id) {
         try {
-            Api.GoodsItem item = mItems.get(position);
             BaseFragment fragment = GoodsFormFragment.class.newInstance();
             Bundle bundle = new Bundle();
-            bundle.putInt("id", item.id);
+            bundle.putInt("id", id);
             fragment.setArguments(bundle);
             startFragment(fragment);
         } catch (Exception e) {
@@ -370,6 +384,42 @@ public class GoodsFragment extends BaseFragment {
             }
             mTVFilter.setText(text);
             mTVFilter.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Intent data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN_CODE) {
+            if (resultCode == RESULT_OK) {
+                String barCode = data.getStringExtra("result");
+                Goods item = Api.getGoodsWithCode(barCode);
+                if (item != null) {
+                    startEditFragment(item.getId());
+                } else {
+                    Toast.makeText(getContext(), "未找到相应商品", Toast.LENGTH_SHORT).show();
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getContext(), "取消扫码", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_CODE_PERMISSION) {
+            return;
+        }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            try {
+                BaseFragment fragment = ScanCodeFragment.class.newInstance();
+                startFragmentForResult(fragment, REQUEST_CODE_SCAN_CODE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getContext(), "应用无法使用相机", Toast.LENGTH_SHORT).show();
         }
     }
 }

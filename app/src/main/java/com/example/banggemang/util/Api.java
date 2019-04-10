@@ -146,6 +146,10 @@ public class Api {
         return LitePal.find(Goods.class, id);
     }
 
+    public static Goods getGoodsWithCode(String barCode) {
+        return LitePal.where("barCode = ?", barCode).findFirst(Goods.class);
+    }
+
     public static boolean addGoods(String name, int categoryId, int unitId, float costPrice, float retailPrice, String barCode, String description) {
         Goods item = new Goods();
         item.setName(name);
