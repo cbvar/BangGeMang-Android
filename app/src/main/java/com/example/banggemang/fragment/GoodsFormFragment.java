@@ -1,10 +1,15 @@
 package com.example.banggemang.fragment;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -41,6 +46,8 @@ public class GoodsFormFragment extends BaseFragment {
     EditText mETBarCode;
     @BindView(R.id.description)
     EditText mETDescription;
+    @BindView(R.id.icon_scan)
+    ImageView mIVIconScan;
 
     private static final int NONE = -1;
     private int mGoodsId = NONE;
@@ -48,6 +55,9 @@ public class GoodsFormFragment extends BaseFragment {
     private int mCategoryId2 = NONE;
     private int mUnitId = NONE;
     private int mDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
+
+    private static final int REQUEST_CODE_SCAN_CODE = 1;
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected View onCreateView() {
@@ -109,6 +119,13 @@ public class GoodsFormFragment extends BaseFragment {
         mETUnit.setOnClickListener(unitCL);
         mETCostPrice.addTextChangedListener(new TextWatchers.money());
         mETRetailPrice.addTextChangedListener(new TextWatchers.money());
+        mIVIconScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] perms = {Manifest.permission.CAMERA};
+                requestPermissions(perms, REQUEST_CODE_PERMISSION);
+            }
+        });
         if (mGoodsId != NONE) {
             Goods goods = Api.getGoods(mGoodsId);
             mETName.setText(goods.getName());
@@ -245,6 +262,37 @@ public class GoodsFormFragment extends BaseFragment {
             return Api.addGoods(name, mCategoryId2, mUnitId, Float.parseFloat(costPrice), Float.parseFloat(retailPrice), barCode, description);
         } else {
             return Api.updateGoods(mGoodsId, name, mCategoryId2, mUnitId, Float.parseFloat(costPrice), Float.parseFloat(retailPrice), barCode, description);
+        }
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Intent data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN_CODE) {
+            if (resultCode == RESULT_OK) {
+                String barCode = data.getStringExtra("result");
+                mETBarCode.setText(barCode);
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getContext(), "取消扫码", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_CODE_PERMISSION) {
+            return;
+        }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            try {
+                BaseFragment fragment = ScanCodeFragment.class.newInstance();
+                startFragmentForResult(fragment, REQUEST_CODE_SCAN_CODE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getContext(), "应用无法使用相机", Toast.LENGTH_SHORT).show();
         }
     }
 }

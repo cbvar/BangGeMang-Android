@@ -132,6 +132,7 @@
 
                 <ImageView
                     style="@style/FormItemImageView"
+                    android:id="@+id/icon_scan"
                     android:src="@mipmap/icon_scan" />
             </LinearLayout>
 
