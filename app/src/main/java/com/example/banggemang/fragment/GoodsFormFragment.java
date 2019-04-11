@@ -73,14 +73,15 @@ public class GoodsFormFragment extends BaseFragment {
     }
 
     private void initTopBar() {
-        mTopBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popBackStack();
-            }
-        });
+        mTopBar.addLeftImageButton(R.drawable.ic_back, R.id.topbar_left_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popBackStack();
+                    }
+                });
 
-        mTopBar.addRightImageButton(R.mipmap.icon_topbar_check, R.id.topbar_right_change_button)
+        mTopBar.addRightImageButton(R.drawable.ic_check, R.id.topbar_right_button)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
