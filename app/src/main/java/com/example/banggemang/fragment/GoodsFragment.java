@@ -372,20 +372,27 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void refreshFilterView() {
+        int color;
+
+        //Category
         if (mCategoryId1 == NONE) {
-            mIVCategory.setImageResource(R.mipmap.icon_filter_unselect_48);
-            mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.qmui_config_color_black));
+            color = QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.qmui_config_color_black);
         } else {
-            mIVCategory.setImageResource(R.mipmap.icon_filter_select_48);
-            mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.app_primary_color));
+            color = QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.app_primary_color);
         }
+        mIVCategory.getDrawable().setTint(color);
+        mTVCategory.setTextColor(color);
+
+        //Unit
         if (mUnitId == NONE) {
-            mIVUnit.setImageResource(R.mipmap.icon_filter_unselect_48);
-            mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.qmui_config_color_black));
+            color = QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.qmui_config_color_black);
         } else {
-            mIVUnit.setImageResource(R.mipmap.icon_filter_select_48);
-            mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.app_primary_color));
+            color = QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.app_primary_color);
         }
+        mIVUnit.getDrawable().setTint(color);
+        mTVUnit.setTextColor(color);
+
+        //Tip
         if (mCategoryId1 == NONE && mUnitId == NONE) {
             mTVFilter.setVisibility(View.GONE);
         } else {

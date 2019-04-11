@@ -28,8 +28,8 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/name"
+                    style="@style/FormItemEditText"
                     android:hint="请输入商品名" />
             </LinearLayout>
 
@@ -44,14 +44,14 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/category"
+                    style="@style/FormItemEditText"
                     android:focusableInTouchMode="false"
                     android:hint="请选择" />
 
                 <ImageView
                     style="@style/FormItemImageView"
-                    android:src="@mipmap/icon_right" />
+                    android:src="@drawable/ic_right" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -65,14 +65,14 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/unit"
+                    style="@style/FormItemEditText"
                     android:focusableInTouchMode="false"
                     android:hint="请选择" />
 
                 <ImageView
                     style="@style/FormItemImageView"
-                    android:src="@mipmap/icon_right" />
+                    android:src="@drawable/ic_right" />
             </LinearLayout>
 
             <LinearLayout style="@style/FormItem">
@@ -88,8 +88,8 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/cost_price"
+                    style="@style/FormItemEditText"
                     android:hint="请输入进货价"
                     android:inputType="numberDecimal" />
             </LinearLayout>
@@ -107,8 +107,8 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/retail_price"
+                    style="@style/FormItemEditText"
                     android:hint="请输入零售价"
                     android:inputType="numberDecimal" />
             </LinearLayout>
@@ -126,14 +126,14 @@
                 <android.support.v4.widget.Space style="@style/FormItemSpace" />
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/bar_code"
+                    style="@style/FormItemEditText"
                     android:hint="请输入条码" />
 
                 <ImageView
-                    style="@style/FormItemImageView"
                     android:id="@+id/icon_scan"
-                    android:src="@mipmap/icon_scan" />
+                    style="@style/FormItemImageView"
+                    android:src="@drawable/ic_scan" />
             </LinearLayout>
 
             <LinearLayout
@@ -158,8 +158,8 @@
                 </LinearLayout>
 
                 <EditText
-                    style="@style/FormItemEditText"
                     android:id="@+id/description"
+                    style="@style/FormItemEditText"
                     android:layout_width="match_parent"
                     android:layout_height="294px"
                     android:gravity="left"

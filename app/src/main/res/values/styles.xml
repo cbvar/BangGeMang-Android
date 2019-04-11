@@ -88,9 +88,10 @@
     </style>
 
     <style name="FormItemImageView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
         <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">?attr/qmui_config_color_gray_5</item>
     </style>
 
 </resources>

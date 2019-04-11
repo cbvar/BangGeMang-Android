@@ -27,16 +27,18 @@
                     android:layout_centerInParent="true">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10px"
-                        android:src="@mipmap/icon_scan_48" />
+                        android:src="@drawable/ic_scan"
+                        android:tint="?attr/qmui_config_color_black" />
 
                     <TextView
                         android:id="@+id/tv_scan_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/scan_code"
                         android:textAppearance="?android:attr/textAppearanceListItem" />
                 </LinearLayout>
@@ -62,16 +64,18 @@
 
                     <ImageView
                         android:id="@+id/iv_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10px"
-                        android:src="@mipmap/icon_filter_unselect_48" />
+                        android:src="@drawable/ic_filter"
+                        android:tint="?attr/qmui_config_color_black" />
 
                     <TextView
                         android:id="@+id/tv_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/category"
                         android:textAppearance="?android:attr/textAppearanceListItem" />
                 </LinearLayout>
@@ -96,16 +100,18 @@
 
                     <ImageView
                         android:id="@+id/iv_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10px"
-                        android:src="@mipmap/icon_filter_unselect_48" />
+                        android:src="@drawable/ic_filter"
+                        android:tint="?attr/qmui_config_color_black" />
 
                     <TextView
                         android:id="@+id/tv_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/unit"
                         android:textAppearance="?android:attr/textAppearanceListItem" />
                 </LinearLayout>
