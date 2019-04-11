@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,16 @@ public class GoodsFragment extends BaseFragment {
     TextView mTVUnit;
     @BindView(R.id.tv_filter)
     TextView mTVFilter;
+    @BindView(R.id.iv_category)
+    ImageView mIVCategory;
+    @BindView(R.id.iv_unit)
+    ImageView mIVUnit;
+    @BindView(R.id.rl_scan_code)
+    RelativeLayout mRLScanCode;
+    @BindView(R.id.rl_category)
+    RelativeLayout mRLCategory;
+    @BindView(R.id.rl_unit)
+    RelativeLayout mRLUnit;
 
     private RecyclerViewAdapter mAdapter;
     private List<Api.GoodsItem> mItems = new ArrayList<>();
@@ -96,19 +108,19 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void initFilter() {
-        mTVCategory.setOnClickListener(new View.OnClickListener() {
+        mRLCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCategoryDialog();
             }
         });
-        mTVUnit.setOnClickListener(new View.OnClickListener() {
+        mRLUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUnitDialog();
             }
         });
-        mTVScanCode.setOnClickListener(new View.OnClickListener() {
+        mRLScanCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] perms = {Manifest.permission.CAMERA};
@@ -360,13 +372,17 @@ public class GoodsFragment extends BaseFragment {
 
     private void refreshFilterView() {
         if (mCategoryId1 == NONE) {
+            mIVCategory.setImageResource(R.mipmap.icon_filter_unselect_48);
             mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.qmui_config_color_black));
         } else {
+            mIVCategory.setImageResource(R.mipmap.icon_filter_select_48);
             mTVCategory.setTextColor(QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.app_primary_color));
         }
         if (mUnitId == NONE) {
+            mIVUnit.setImageResource(R.mipmap.icon_filter_unselect_48);
             mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.qmui_config_color_black));
         } else {
+            mIVUnit.setImageResource(R.mipmap.icon_filter_select_48);
             mTVUnit.setTextColor(QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.app_primary_color));
         }
         if (mCategoryId1 == NONE && mUnitId == NONE) {
