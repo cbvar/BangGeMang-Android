@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,7 +64,7 @@ public class GoodsFormFragment extends BaseFragment {
         if (bundle != null) {
             mGoodsId = bundle.getInt("id");
         }
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods_form, null);
+        View view = View.inflate(getContext(), R.layout.fragment_goods_form, null);
         ButterKnife.bind(this, view);
         initTopBar();
         initForm();
@@ -151,7 +150,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = categories.size();
         if (length <= 0) {
-            Toast.makeText(getActivity(), "无可选一级分类", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "无可选一级分类", Toast.LENGTH_SHORT).show();
             return;
         }
         final String[] items = new String[length];
@@ -162,7 +161,7 @@ public class GoodsFormFragment extends BaseFragment {
                 checkedIndex = i;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         if (checkedIndex != NONE) {
             builder.setCheckedIndex(checkedIndex);
         }
@@ -181,7 +180,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = categories.size();
         if (length <= 0) {
-            Toast.makeText(getActivity(), "[" + parent.getName() + "]下无可选分类", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "[" + parent.getName() + "]下无可选分类", Toast.LENGTH_SHORT).show();
             return;
         }
         final String[] items = new String[length];
@@ -192,7 +191,7 @@ public class GoodsFormFragment extends BaseFragment {
                 checkedIndex = i;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         if (checkedIndex != NONE) {
             builder.setCheckedIndex(checkedIndex);
         }
@@ -215,7 +214,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = units.size();
         if (length <= 0) {
-            Toast.makeText(getActivity(), "无可选单位", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "无可选单位", Toast.LENGTH_SHORT).show();
             return;
         }
         final String[] items = new String[length];
@@ -226,7 +225,7 @@ public class GoodsFormFragment extends BaseFragment {
                 checkedIndex = i;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         if (checkedIndex != NONE) {
             builder.setCheckedIndex(checkedIndex);
         }
@@ -249,7 +248,7 @@ public class GoodsFormFragment extends BaseFragment {
         String description = mETDescription.getText().toString();
 
         if (name.isEmpty() || mCategoryId2 == NONE || mUnitId == NONE) {
-            Toast.makeText(getActivity(), "*为必填项", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "*为必填项", Toast.LENGTH_SHORT).show();
             return false;
         }
 

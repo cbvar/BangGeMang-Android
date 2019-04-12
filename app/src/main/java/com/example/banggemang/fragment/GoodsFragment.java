@@ -73,7 +73,7 @@ public class GoodsFragment extends BaseFragment {
 
     @Override
     protected View onCreateView() {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods, null);
+        View view = View.inflate(getContext(), R.layout.fragment_goods, null);
         ButterKnife.bind(this, view);
         initTopBar();
         initFilter();
@@ -141,7 +141,7 @@ public class GoodsFragment extends BaseFragment {
 
         private List<Api.GoodsItem> mList;
 
-        public RecyclerViewAdapter(List<Api.GoodsItem> list) {
+        RecyclerViewAdapter(List<Api.GoodsItem> list) {
             mList = list;
         }
 
@@ -183,14 +183,14 @@ public class GoodsFragment extends BaseFragment {
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public RecyclerViewHolder(@NonNull View itemView) {
+        RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
     private void showEditAndDeleteMenuDialog(final int position) {
         final String[] items = new String[]{"编辑", "删除"};
-        new QMUIDialog.MenuDialogBuilder(getActivity())
+        new QMUIDialog.MenuDialogBuilder(getContext())
                 .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -229,7 +229,7 @@ public class GoodsFragment extends BaseFragment {
 
     private void showDeleteDialog(final int position) {
         final Api.GoodsItem item = mItems.get(position);
-        new QMUIDialog.MessageDialogBuilder(getActivity())
+        new QMUIDialog.MessageDialogBuilder(getContext())
                 .setTitle("删除")
                 .setMessage("确定要删除［" + item.name + "］吗？")
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
@@ -242,10 +242,10 @@ public class GoodsFragment extends BaseFragment {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         if (Api.deleteGoods(item.id)) {
-                            Toast.makeText(getActivity(), "删除成功: " + item.name, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "删除成功: " + item.name, Toast.LENGTH_SHORT).show();
                             refreshGoodsView();
                         } else {
-                            Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
@@ -266,7 +266,7 @@ public class GoodsFragment extends BaseFragment {
                 checkedIndex = i + 1;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         builder.setCheckedIndex(checkedIndex);
         builder.addItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -299,7 +299,7 @@ public class GoodsFragment extends BaseFragment {
                 checkedIndex = i + 1;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         builder.setCheckedIndex(checkedIndex);
         builder.addItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -335,7 +335,7 @@ public class GoodsFragment extends BaseFragment {
                 checkedIndex = i + 1;
             }
         }
-        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
+        QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getContext());
         builder.setCheckedIndex(checkedIndex);
         builder.addItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -361,9 +361,7 @@ public class GoodsFragment extends BaseFragment {
         int categoryId = mCategoryId1 == NONE ? Api.INT_NONE : mCategoryId2 == NONE ? mCategoryId1 : mCategoryId2;
         int unitId = mUnitId == NONE ? Api.INT_NONE : mUnitId;
         List<Api.GoodsItem> Data = Api.getGoodsList(categoryId, unitId);
-        for (Api.GoodsItem item : Data) {
-            mItems.add(item);
-        }
+        mItems.addAll(Data);
     }
 
     private void refreshGoodsView() {

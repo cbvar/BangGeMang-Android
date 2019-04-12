@@ -38,7 +38,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
     @Override
     protected View onCreateView() {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_recycler_view, null);
+        View view = View.inflate(getContext(), R.layout.fragment_recycler_view, null);
         ButterKnife.bind(this, view);
         initTopBar();
         initRecyclerView();
@@ -77,7 +77,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
         private List<GoodsUnit> mList;
 
-        public RecyclerViewAdapter(List<GoodsUnit> list) {
+        RecyclerViewAdapter(List<GoodsUnit> list) {
             mList = list;
         }
 
@@ -113,13 +113,13 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public RecyclerViewHolder(@NonNull View itemView) {
+        RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
     private void showAddDialog() {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
         builder.setTitle("添加")
                 .setPlaceholder("在此输入单位名称")
                 .setInputType(InputType.TYPE_CLASS_TEXT)
@@ -136,14 +136,14 @@ public class GoodsUnitFragment extends BaseFragment {
                         if (text != null && text.length() > 0) {
                             if (Api.addGoodsUnit(text.toString())) {
                                 //添加成功
-                                Toast.makeText(getActivity(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 refreshUnitsView();
                             } else {
-                                Toast.makeText(getActivity(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "单位名称已存在", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getActivity(), "请填入单位名称", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "请填入单位名称", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -152,7 +152,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private void showEditAndDeleteMenuDialog(final int position) {
         final String[] items = new String[]{"编辑", "删除"};
-        new QMUIDialog.MenuDialogBuilder(getActivity())
+        new QMUIDialog.MenuDialogBuilder(getContext())
                 .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -169,7 +169,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private void showEditDialog(final int position) {
         final GoodsUnit item = mUnits.get(position);
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
         builder.setTitle("编辑")
                 .setDefaultText(item.getName())
                 .setPlaceholder("在此输入单位名称")
@@ -187,14 +187,14 @@ public class GoodsUnitFragment extends BaseFragment {
                         if (text != null && text.length() > 0) {
                             if (Api.updateGoodsUnit(item.getId(), text.toString())) {
                                 //编辑成功
-                                Toast.makeText(getActivity(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 refreshUnitsView();
                             } else {
-                                Toast.makeText(getActivity(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "单位名称已存在", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getActivity(), "请填入单位名称", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "请填入单位名称", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -203,7 +203,7 @@ public class GoodsUnitFragment extends BaseFragment {
 
     private void showDeleteDialog(final int position) {
         final GoodsUnit item = mUnits.get(position);
-        new QMUIDialog.MessageDialogBuilder(getActivity())
+        new QMUIDialog.MessageDialogBuilder(getContext())
                 .setTitle("删除")
                 .setMessage("确定要删除［" + item.getName() + "］吗？")
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
@@ -216,10 +216,10 @@ public class GoodsUnitFragment extends BaseFragment {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         if (Api.deleteGoodsUnit(item.getId())) {
-                            Toast.makeText(getActivity(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
                             refreshUnitsView();
                         } else {
-                            Toast.makeText(getActivity(), "该项非空，不允许删除", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "该项非空，不允许删除", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }

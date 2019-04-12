@@ -3,7 +3,6 @@ package com.example.banggemang.fragment;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.banggemang.R;
@@ -26,7 +25,7 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
 
     @Override
     protected View onCreateView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_scan_code, null);
+        View view = View.inflate(getContext(), R.layout.fragment_scan_code, null);
         ButterKnife.bind(this, view);
         initTopBar();
         initScanner();

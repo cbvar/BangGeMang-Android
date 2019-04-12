@@ -47,7 +47,7 @@ public class GoodsCategoryFragment extends BaseFragment {
 
     @Override
     protected View onCreateView() {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_goods_category, null);
+        View view = View.inflate(getContext(), R.layout.fragment_goods_category, null);
         ButterKnife.bind(this, view);
         initTopBar();
         initRecyclerView();
@@ -90,7 +90,7 @@ public class GoodsCategoryFragment extends BaseFragment {
 
         private List<GoodsCategory> mList;
 
-        public RecyclerViewAdapter1(List<GoodsCategory> list) {
+        RecyclerViewAdapter1(List<GoodsCategory> list) {
             mList = list;
         }
 
@@ -145,7 +145,7 @@ public class GoodsCategoryFragment extends BaseFragment {
 
         private List<GoodsCategory> mList;
 
-        public RecyclerViewAdapter2(List<GoodsCategory> list) {
+        RecyclerViewAdapter2(List<GoodsCategory> list) {
             mList = list;
         }
 
@@ -183,7 +183,7 @@ public class GoodsCategoryFragment extends BaseFragment {
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public RecyclerViewHolder(@NonNull View itemView) {
+        RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
@@ -195,7 +195,7 @@ public class GoodsCategoryFragment extends BaseFragment {
         } else {
             items = new String[]{"一级分类"};
         }
-        new QMUIDialog.MenuDialogBuilder(getActivity())
+        new QMUIDialog.MenuDialogBuilder(getContext())
                 .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -214,7 +214,7 @@ public class GoodsCategoryFragment extends BaseFragment {
         } else {
             title += "二级分类）";
         }
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
         builder.setTitle(title)
                 .setPlaceholder("在此输入分类名称")
                 .setInputType(InputType.TYPE_CLASS_TEXT)
@@ -251,7 +251,7 @@ public class GoodsCategoryFragment extends BaseFragment {
 
     private void showEditAndDeleteMenuDialog() {
         final String[] items = new String[]{"编辑", "删除"};
-        new QMUIDialog.MenuDialogBuilder(getActivity())
+        new QMUIDialog.MenuDialogBuilder(getContext())
                 .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -276,7 +276,7 @@ public class GoodsCategoryFragment extends BaseFragment {
             title += "二级分类）";
             item = mCategories2.get(mSelected);
         }
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
         builder.setTitle(title)
                 .setDefaultText(item.getName())
                 .setPlaceholder("在此输入分类名称")
@@ -322,7 +322,7 @@ public class GoodsCategoryFragment extends BaseFragment {
             title += "二级分类）";
             item = mCategories2.get(mSelected);
         }
-        new QMUIDialog.MessageDialogBuilder(getActivity())
+        new QMUIDialog.MessageDialogBuilder(getContext())
                 .setTitle(title)
                 .setMessage("确定要删除［" + item.getName() + "］吗？")
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
@@ -396,6 +396,6 @@ public class GoodsCategoryFragment extends BaseFragment {
     }
 
     private void showTip(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
