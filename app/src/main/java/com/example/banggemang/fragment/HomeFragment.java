@@ -48,12 +48,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initMenu() {
-        mMenu.add(new HomeMenu(getString(R.string.goods_management), R.mipmap.icon_goods_management, GoodsFragment.class));
-        mMenu.add(new HomeMenu(getString(R.string.goods_category), R.mipmap.icon_goods_category, GoodsCategoryFragment.class));
-        mMenu.add(new HomeMenu(getString(R.string.goods_unit), R.mipmap.icon_goods_unit, GoodsUnitFragment.class));
-        mMenu.add(new HomeMenu(getString(R.string.checkout_counter), R.mipmap.icon_checkout_counter));
-        mMenu.add(new HomeMenu(getString(R.string.system_settings), R.mipmap.icon_system_settings));
-        mMenu.add(new HomeMenu(getString(R.string.more), R.mipmap.icon_more));
+        mMenu.add(new HomeMenu(getString(R.string.goods_management), R.drawable.ic_goods, GoodsFragment.class));
+        mMenu.add(new HomeMenu(getString(R.string.goods_category), R.drawable.ic_category, GoodsCategoryFragment.class));
+        mMenu.add(new HomeMenu(getString(R.string.goods_unit), R.drawable.ic_unit, GoodsUnitFragment.class));
+        mMenu.add(new HomeMenu(getString(R.string.checkstand), R.drawable.ic_checkstand));
+        mMenu.add(new HomeMenu(getString(R.string.system_settings), R.drawable.ic_settings));
+        mMenu.add(new HomeMenu(getString(R.string.more), R.drawable.ic_more));
     }
 
     private void initTopBar() {

@@ -8,7 +8,7 @@
     <string name="goods_management">商品管理</string>
     <string name="goods_category">商品分类</string>
     <string name="goods_unit">商品单位</string>
-    <string name="checkout_counter">收银台</string>
+    <string name="checkstand">收银台</string>
     <string name="system_settings">系统设置</string>
     <string name="more">更多</string>
     <string name="coming_soon">即将开放</string>
