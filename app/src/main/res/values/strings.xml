@@ -4,6 +4,10 @@
     <string name="all">全部</string>
     <string name="category">分类</string>
     <string name="unit">单位</string>
+    <string name="search">搜索</string>
+    <string name="pending_order">挂单</string>
+    <string name="restore_order">取单</string>
+    <string name="settlement">结算</string>
     <!--首页-->
     <string name="goods_management">商品管理</string>
     <string name="goods_category">商品分类</string>
@@ -23,4 +27,9 @@
     <string name="goods_list_filter_both">筛选条件：分类［%s］、单位［%s］</string>
     <string name="goods_list_filter_category">筛选条件：分类［%s］</string>
     <string name="goods_list_filter_unit">筛选条件：单位［%s］</string>
+    <!--收银台列表页-->
+    <string name="checkstand_item_unit_price">单价：%.2f</string>
+    <string name="checkstand_item_quantity">数量(%s)：%s</string>
+    <string name="checkstand_item_money">金额：%.2f</string>
+    <string name="checkstand_total_money">收款 %.2f元</string>
 </resources>

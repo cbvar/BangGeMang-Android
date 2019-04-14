@@ -21,6 +21,15 @@ public class Api {
         public float retailPrice;
     }
 
+    public static class CheckoutItem {
+        public int id;
+        public String name;
+        public float unitPrice;
+        public String unit;
+        public float quantity;
+        public float money;
+    }
+
     public static List<GoodsUnit> getGoodsUnitList() {
         return LitePal.findAll(GoodsUnit.class);
     }
@@ -148,6 +157,10 @@ public class Api {
 
     public static Goods getGoodsWithCode(String barCode) {
         return LitePal.where("barCode = ?", barCode).findFirst(Goods.class);
+    }
+
+    public static List<Goods> getGoodsListWithName(String name) {
+        return LitePal.where("name LIKE ?", "%" + name + "%").limit(10).find(Goods.class);
     }
 
     public static boolean addGoods(String name, int categoryId, int unitId, float costPrice, float retailPrice, String barCode, String description) {

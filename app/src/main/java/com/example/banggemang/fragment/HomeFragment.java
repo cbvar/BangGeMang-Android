@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment {
         mMenu.add(new HomeMenu(getString(R.string.goods_management), R.drawable.ic_goods, GoodsFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.goods_category), R.drawable.ic_category, GoodsCategoryFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.goods_unit), R.drawable.ic_unit, GoodsUnitFragment.class));
-        mMenu.add(new HomeMenu(getString(R.string.checkstand), R.drawable.ic_checkstand));
+        mMenu.add(new HomeMenu(getString(R.string.checkstand), R.drawable.ic_checkstand, CheckstandFragment.class));
         mMenu.add(new HomeMenu(getString(R.string.system_settings), R.drawable.ic_settings));
         mMenu.add(new HomeMenu(getString(R.string.more), R.drawable.ic_more));
     }
