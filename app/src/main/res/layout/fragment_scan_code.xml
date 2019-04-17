@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/qmui_topbar_height"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
         <cn.bingoogolapple.qrcode.zxing.ZXingView
             android:id="@+id/zxingview"
@@ -34,19 +33,27 @@
             app:qrcv_isShowLocationPoint="true"
             app:qrcv_isShowTipBackground="true"
             app:qrcv_isShowTipTextAsSingleLine="false"
-            app:qrcv_isTipTextBelowRect="false"
+            app:qrcv_isTipTextBelowRect="true"
             app:qrcv_maskColor="#33FFFFFF"
             app:qrcv_qrCodeTipText="将二维码/条码放入框内，即可自动扫描"
-            app:qrcv_rectWidth="200dp"
+            app:qrcv_rectWidth="250dp"
             app:qrcv_scanLineColor="@color/app_scan_code_primary_dark"
             app:qrcv_scanLineMargin="0dp"
             app:qrcv_scanLineSize="0.5dp"
             app:qrcv_tipTextColor="@android:color/white"
-            app:qrcv_tipTextSize="12sp"
+            app:qrcv_tipTextSize="14sp"
             app:qrcv_toolbarHeight="56dp"
-            app:qrcv_topOffset="65dp"
+            app:qrcv_topOffset="44dp"
             app:qrcv_verticalBias="-1" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_flashlight"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="90dp"
+            android:src="@drawable/ic_flashlight_close" />
+    </FrameLayout>
 
     <com.qmuiteam.qmui.widget.QMUITopBarLayout
         android:id="@+id/topbar"

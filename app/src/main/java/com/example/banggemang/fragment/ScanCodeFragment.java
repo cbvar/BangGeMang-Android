@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -22,6 +23,10 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
     QMUITopBarLayout mTopBar;
     @BindView(R.id.zxingview)
     ZXingView mZXingView;
+    @BindView(R.id.iv_flashlight)
+    ImageView mIVFlashlight;
+
+    private boolean is_flashlight_open = false;
 
     @Override
     protected View onCreateView() {
@@ -29,6 +34,7 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
         ButterKnife.bind(this, view);
         initTopBar();
         initScanner();
+        initFlashlight();
         return view;
     }
 
@@ -44,6 +50,27 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
 
     private void initScanner() {
         mZXingView.setDelegate(this);
+    }
+
+    private void initFlashlight() {
+        mIVFlashlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int color;
+                if (is_flashlight_open) {
+                    mZXingView.closeFlashlight();
+                    is_flashlight_open = false;
+                    mIVFlashlight.setImageResource(R.drawable.ic_flashlight_close);
+                    color = getResources().getColor(R.color.qmui_config_color_white);
+                } else {
+                    mZXingView.openFlashlight();
+                    is_flashlight_open = true;
+                    mIVFlashlight.setImageResource(R.drawable.ic_flashlight_open);
+                    color = getResources().getColor(R.color.app_scan_code_primary_dark);
+                }
+                mIVFlashlight.getDrawable().setTint(color);
+            }
+        });
     }
 
     @Override
@@ -85,11 +112,6 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
 
     @Override
     public void onCameraAmbientBrightnessChanged(boolean isDark) {
-        if (isDark) {
-            mZXingView.openFlashlight();
-        } else {
-            mZXingView.closeFlashlight();
-        }
     }
 
     @Override
