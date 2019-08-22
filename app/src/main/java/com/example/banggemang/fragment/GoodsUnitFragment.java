@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -136,14 +135,14 @@ public class GoodsUnitFragment extends BaseFragment {
                         if (text != null && text.length() > 0) {
                             if (Api.addGoodsUnit(text.toString())) {
                                 //添加成功
-                                Toast.makeText(getContext(), "添加成功: " + text, Toast.LENGTH_SHORT).show();
+                                showTip("添加成功: " + text);
                                 dialog.dismiss();
                                 refreshUnitsView();
                             } else {
-                                Toast.makeText(getContext(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                                showTip("单位名称已存在");
                             }
                         } else {
-                            Toast.makeText(getContext(), "请填入单位名称", Toast.LENGTH_SHORT).show();
+                            showTip("请填入单位名称");
                         }
                     }
                 })
@@ -187,14 +186,14 @@ public class GoodsUnitFragment extends BaseFragment {
                         if (text != null && text.length() > 0) {
                             if (Api.updateGoodsUnit(item.getId(), text.toString())) {
                                 //编辑成功
-                                Toast.makeText(getContext(), "编辑成功: " + text, Toast.LENGTH_SHORT).show();
+                                showTip("编辑成功: " + text);
                                 dialog.dismiss();
                                 refreshUnitsView();
                             } else {
-                                Toast.makeText(getContext(), "单位名称已存在", Toast.LENGTH_SHORT).show();
+                                showTip("单位名称已存在");
                             }
                         } else {
-                            Toast.makeText(getContext(), "请填入单位名称", Toast.LENGTH_SHORT).show();
+                            showTip("请填入单位名称");
                         }
                     }
                 })
@@ -216,10 +215,10 @@ public class GoodsUnitFragment extends BaseFragment {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         if (Api.deleteGoodsUnit(item.getId())) {
-                            Toast.makeText(getContext(), "删除成功: " + item.getName(), Toast.LENGTH_SHORT).show();
+                            showTip("删除成功: " + item.getName());
                             refreshUnitsView();
                         } else {
-                            Toast.makeText(getContext(), "该项非空，不允许删除", Toast.LENGTH_SHORT).show();
+                            showTip("该项非空，不允许删除");
                         }
                         dialog.dismiss();
                     }

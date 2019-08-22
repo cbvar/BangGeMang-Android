@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -242,10 +241,10 @@ public class GoodsFragment extends BaseFragment {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         if (Api.deleteGoods(item.id)) {
-                            Toast.makeText(getContext(), "删除成功: " + item.name, Toast.LENGTH_SHORT).show();
+                            showTip("删除成功: " + item.name);
                             refreshGoodsView();
                         } else {
-                            Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
+                            showTip("删除失败");
                         }
                         dialog.dismiss();
                     }
@@ -419,10 +418,10 @@ public class GoodsFragment extends BaseFragment {
                 if (item != null) {
                     startEditFragment(item.getId());
                 } else {
-                    Toast.makeText(getContext(), "未找到相应商品", Toast.LENGTH_SHORT).show();
+                    showTip("未找到相应商品");
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(getContext(), "取消扫码", Toast.LENGTH_SHORT).show();
+                showTip("取消扫码");
             }
         }
     }
@@ -441,7 +440,7 @@ public class GoodsFragment extends BaseFragment {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getContext(), "应用无法使用相机", Toast.LENGTH_SHORT).show();
+            showTip("应用无法使用相机");
         }
     }
 }

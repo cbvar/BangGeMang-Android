@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -373,10 +372,6 @@ public class CheckstandFragment extends BaseFragment {
                 .create(mDialogStyle).show();
     }
 
-    private void showTip(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Intent data) {
         super.onFragmentResult(requestCode, resultCode, data);
@@ -410,7 +405,7 @@ public class CheckstandFragment extends BaseFragment {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getContext(), "应用无法使用相机", Toast.LENGTH_SHORT).show();
+            showTip("应用无法使用相机");
         }
     }
 

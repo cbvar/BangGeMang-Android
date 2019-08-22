@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -393,9 +392,5 @@ public class GoodsCategoryFragment extends BaseFragment {
         } else {
             return Api.addGoodsCategory(name);
         }
-    }
-
-    private void showTip(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

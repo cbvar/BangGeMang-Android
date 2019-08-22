@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.banggemang.MyApplication;
 import com.example.banggemang.R;
@@ -110,7 +109,7 @@ public class HomeFragment extends BaseFragment {
                             e.printStackTrace();
                         }
                     } else {
-                        Toast.makeText(v.getContext(), v.getContext().getString(R.string.coming_soon), Toast.LENGTH_SHORT).show();
+                        showTip(v.getContext().getString(R.string.coming_soon));
                     }
                 }
             });

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
@@ -150,7 +149,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = categories.size();
         if (length <= 0) {
-            Toast.makeText(getContext(), "无可选一级分类", Toast.LENGTH_SHORT).show();
+            showTip("无可选一级分类");
             return;
         }
         final String[] items = new String[length];
@@ -180,7 +179,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = categories.size();
         if (length <= 0) {
-            Toast.makeText(getContext(), "[" + parent.getName() + "]下无可选分类", Toast.LENGTH_SHORT).show();
+            showTip("[" + parent.getName() + "]下无可选分类");
             return;
         }
         final String[] items = new String[length];
@@ -214,7 +213,7 @@ public class GoodsFormFragment extends BaseFragment {
 
         int length = units.size();
         if (length <= 0) {
-            Toast.makeText(getContext(), "无可选单位", Toast.LENGTH_SHORT).show();
+            showTip("无可选单位");
             return;
         }
         final String[] items = new String[length];
@@ -248,7 +247,7 @@ public class GoodsFormFragment extends BaseFragment {
         String description = mETDescription.getText().toString();
 
         if (name.isEmpty() || mCategoryId2 == NONE || mUnitId == NONE) {
-            Toast.makeText(getContext(), "*为必填项", Toast.LENGTH_SHORT).show();
+            showTip("*为必填项");
             return false;
         }
 
@@ -273,7 +272,7 @@ public class GoodsFormFragment extends BaseFragment {
                 String barCode = data.getStringExtra("result");
                 mETBarCode.setText(barCode);
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(getContext(), "取消扫码", Toast.LENGTH_SHORT).show();
+                showTip("取消扫码");
             }
         }
     }
@@ -292,7 +291,7 @@ public class GoodsFormFragment extends BaseFragment {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getContext(), "应用无法使用相机", Toast.LENGTH_SHORT).show();
+            showTip("应用无法使用相机");
         }
     }
 }
