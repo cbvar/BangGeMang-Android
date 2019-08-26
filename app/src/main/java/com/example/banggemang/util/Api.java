@@ -101,11 +101,11 @@ public class Api {
         return item.delete() > 0;
     }
 
-    public static List<GoodsItem> getGoodsList(int categoryId, int unitId) {
+    public static List<GoodsItem> getGoodsList(int categoryId, int unitId, String searchText, String scanText) {
         List<Goods> items;
         List<GoodsItem> data = new ArrayList<>();
-        if (categoryId == INT_NONE && unitId == INT_NONE) {
-            items = LitePal.findAll(Goods.class);
+        if (categoryId == INT_NONE && unitId == INT_NONE && searchText.isEmpty() && scanText.isEmpty()) {
+            items = LitePal.order("id").find(Goods.class);
         } else {
             String conditions = "";
             if (categoryId != INT_NONE) {
@@ -128,13 +128,25 @@ public class Api {
                     conditions += ")";
                 }
             }
-            if (categoryId != INT_NONE && unitId != INT_NONE) {
-                conditions += " AND ";
-            }
             if (unitId != INT_NONE) {
+                if (!conditions.isEmpty()) {
+                    conditions += " AND ";
+                }
                 conditions += "unitId = " + Integer.toString(unitId);
             }
-            items = LitePal.where(conditions).find(Goods.class);
+            if (!searchText.isEmpty()) {
+                if (!conditions.isEmpty()) {
+                    conditions += " AND ";
+                }
+                conditions += "name LIKE '%" + searchText + "%'";
+            }
+            if (!scanText.isEmpty()) {
+                if (!conditions.isEmpty()) {
+                    conditions += " AND ";
+                }
+                conditions += "barcode = " + scanText;
+            }
+            items = LitePal.where(conditions).order("id").find(Goods.class);
         }
         for (Goods item : items) {
             GoodsUnit unit = LitePal.find(GoodsUnit.class, item.getUnitId());

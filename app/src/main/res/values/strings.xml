@@ -27,6 +27,8 @@
     <string name="goods_list_filter_both">筛选条件：分类［%s］、单位［%s］</string>
     <string name="goods_list_filter_category">筛选条件：分类［%s］</string>
     <string name="goods_list_filter_unit">筛选条件：单位［%s］</string>
+    <string name="goods_list_filter_search">筛选条件：搜索［%s］</string>
+    <string name="goods_list_filter_scan">筛选条件：扫码［%s］</string>
     <!--收银台列表页-->
     <string name="checkstand_item_unit_price">单价：%.2f</string>
     <string name="checkstand_item_quantity">数量(%s)：%s</string>

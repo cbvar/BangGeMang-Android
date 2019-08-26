@@ -8,16 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
-import com.example.banggemang.model.Goods;
 import com.example.banggemang.model.GoodsCategory;
 import com.example.banggemang.model.GoodsUnit;
 import com.example.banggemang.util.Api;
@@ -38,24 +38,32 @@ public class GoodsFragment extends BaseFragment {
     QMUITopBarLayout mTopBar;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.tv_scan_code)
-    TextView mTVScanCode;
+    @BindView(R.id.tv_search)
+    TextView mTVSearch;
+    @BindView(R.id.tv_scan)
+    TextView mTVScan;
     @BindView(R.id.tv_category)
     TextView mTVCategory;
     @BindView(R.id.tv_unit)
     TextView mTVUnit;
     @BindView(R.id.tv_filter)
     TextView mTVFilter;
+    @BindView(R.id.iv_search)
+    ImageView mIVSearch;
+    @BindView(R.id.iv_scan)
+    ImageView mIVScan;
     @BindView(R.id.iv_category)
     ImageView mIVCategory;
     @BindView(R.id.iv_unit)
     ImageView mIVUnit;
-    @BindView(R.id.rl_scan_code)
-    RelativeLayout mRLScanCode;
-    @BindView(R.id.rl_category)
-    RelativeLayout mRLCategory;
-    @BindView(R.id.rl_unit)
-    RelativeLayout mRLUnit;
+    @BindView(R.id.ll_search)
+    LinearLayout mLLSearch;
+    @BindView(R.id.ll_category)
+    LinearLayout mLLCategory;
+    @BindView(R.id.ll_unit)
+    LinearLayout mLLUnit;
+    @BindView(R.id.ll_scan)
+    LinearLayout mLLScan;
 
     private RecyclerViewAdapter mAdapter;
     private List<Api.GoodsItem> mItems = new ArrayList<>();
@@ -65,10 +73,17 @@ public class GoodsFragment extends BaseFragment {
     private String mCategoryText = "";
     private int mUnitId = NONE;
     private String mUnitText = "";
+    private String mSearchText = "";
+    private String mScanText = "";
     private int mDialogStyle = com.qmuiteam.qmui.R.style.QMUI_Dialog;
 
     private static final int REQUEST_CODE_SCAN_CODE = 1;
     private static final int REQUEST_CODE_PERMISSION = 2;
+
+    private static final int FILTER_TYPE_CATEGORY = 1;
+    private static final int FILTER_TYPE_UNIT = 2;
+    private static final int FILTER_TYPE_SEARCH = 3;
+    private static final int FILTER_TYPE_SCAN_CODE = 4;
 
     @Override
     protected View onCreateView() {
@@ -108,19 +123,25 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void initFilter() {
-        mRLCategory.setOnClickListener(new View.OnClickListener() {
+        mLLCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCategoryDialog();
             }
         });
-        mRLUnit.setOnClickListener(new View.OnClickListener() {
+        mLLUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showUnitDialog();
             }
         });
-        mRLScanCode.setOnClickListener(new View.OnClickListener() {
+        mLLSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSearchDialog();
+            }
+        });
+        mLLScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] perms = {Manifest.permission.CAMERA};
@@ -303,6 +324,7 @@ public class GoodsFragment extends BaseFragment {
         builder.addItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                resetFilter(FILTER_TYPE_CATEGORY);
                 mCategoryId1 = parent.getId();
                 if (which == 0) {
                     mCategoryId2 = NONE;
@@ -310,7 +332,7 @@ public class GoodsFragment extends BaseFragment {
                 } else {
                     GoodsCategory current = categories.get(which - 1);
                     mCategoryId2 = current.getId();
-                    mCategoryText = current.getName();
+                    mCategoryText = parent.getName() + "-" + current.getName();
                 }
                 refreshFilterView();
                 refreshGoodsView();
@@ -339,6 +361,7 @@ public class GoodsFragment extends BaseFragment {
         builder.addItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                resetFilter(FILTER_TYPE_UNIT);
                 if (which == 0) {
                     mUnitId = NONE;
                     mUnitText = "";
@@ -355,11 +378,40 @@ public class GoodsFragment extends BaseFragment {
                 .create(mDialogStyle).show();
     }
 
+    private void showSearchDialog() {
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
+        builder.setTitle("搜索")
+                .setPlaceholder("在此输入商品名称")
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction("确定", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        CharSequence text = builder.getEditText().getText();
+                        if (text != null && text.length() > 0) {
+                            resetFilter(FILTER_TYPE_SEARCH);
+                            mSearchText = String.valueOf(text);
+                            refreshFilterView();
+                            refreshGoodsView();
+                            dialog.dismiss();
+                        } else {
+                            showTip("请填入商品名称");
+                        }
+                    }
+                })
+                .create(mDialogStyle).show();
+    }
+
     private void refreshGoods() {
         mItems.clear();
         int categoryId = mCategoryId1 == NONE ? Api.INT_NONE : mCategoryId2 == NONE ? mCategoryId1 : mCategoryId2;
         int unitId = mUnitId == NONE ? Api.INT_NONE : mUnitId;
-        List<Api.GoodsItem> Data = Api.getGoodsList(categoryId, unitId);
+        List<Api.GoodsItem> Data = Api.getGoodsList(categoryId, unitId, mSearchText, mScanText);
         mItems.addAll(Data);
     }
 
@@ -368,39 +420,78 @@ public class GoodsFragment extends BaseFragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void resetFilter(int type) {
+        if (type == FILTER_TYPE_SEARCH || type == FILTER_TYPE_SCAN_CODE) {
+            mCategoryId1 = NONE;
+            mCategoryId2 = NONE;
+            mCategoryText = "";
+            mUnitId = NONE;
+            mUnitText = "";
+            if (type == FILTER_TYPE_SEARCH) {
+                mScanText = "";
+            } else {
+                mSearchText = "";
+            }
+        } else {
+            mSearchText = "";
+            mScanText = "";
+        }
+    }
+
+    private void clearFilter() {
+        mCategoryId1 = NONE;
+        mCategoryId2 = NONE;
+        mCategoryText = "";
+        mUnitId = NONE;
+        mUnitText = "";
+        mSearchText = "";
+        mScanText = "";
+    }
+
     private void refreshFilterView() {
         int color;
 
+        int unselectedColor = QMUIResHelper.getAttrColor(getContext(), R.attr.qmui_config_color_black);
+        int selectedColor = QMUIResHelper.getAttrColor(getContext(), R.attr.app_primary_color);
+
         //Category
-        if (mCategoryId1 == NONE) {
-            color = QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.qmui_config_color_black);
-        } else {
-            color = QMUIResHelper.getAttrColor(mTVCategory.getContext(), R.attr.app_primary_color);
-        }
+        color = mCategoryId1 == NONE ? unselectedColor : selectedColor;
         mIVCategory.getDrawable().setTint(color);
         mTVCategory.setTextColor(color);
 
         //Unit
-        if (mUnitId == NONE) {
-            color = QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.qmui_config_color_black);
-        } else {
-            color = QMUIResHelper.getAttrColor(mTVUnit.getContext(), R.attr.app_primary_color);
-        }
+        color = mUnitId == NONE ? unselectedColor : selectedColor;
         mIVUnit.getDrawable().setTint(color);
         mTVUnit.setTextColor(color);
 
+        //Search
+        color = mSearchText.isEmpty() ? unselectedColor : selectedColor;
+        mIVSearch.getDrawable().setTint(color);
+        mTVSearch.setTextColor(color);
+
+        //Scan Code
+        color = mScanText.isEmpty() ? unselectedColor : selectedColor;
+        mIVScan.getDrawable().setTint(color);
+        mTVScan.setTextColor(color);
+
         //Tip
-        if (mCategoryId1 == NONE && mUnitId == NONE) {
+        if (mCategoryId1 == NONE && mUnitId == NONE && mSearchText.isEmpty() && mScanText.isEmpty()) {
             mTVFilter.setVisibility(View.GONE);
         } else {
             String text;
-            if (mCategoryId1 != NONE && mUnitId != NONE) {
-                text = String.format(getString(R.string.goods_list_filter_both), mCategoryText, mUnitText);
+            if (!mSearchText.isEmpty()) {
+                text = String.format(getString(R.string.goods_list_filter_search), mSearchText);
+            } else if (!mScanText.isEmpty()) {
+                text = String.format(getString(R.string.goods_list_filter_scan), mScanText);
             } else {
-                if (mCategoryId1 != NONE) {
-                    text = String.format(getString(R.string.goods_list_filter_category), mCategoryText);
+                if (mCategoryId1 != NONE && mUnitId != NONE) {
+                    text = String.format(getString(R.string.goods_list_filter_both), mCategoryText, mUnitText);
                 } else {
-                    text = String.format(getString(R.string.goods_list_filter_unit), mUnitText);
+                    if (mCategoryId1 != NONE) {
+                        text = String.format(getString(R.string.goods_list_filter_category), mCategoryText);
+                    } else {
+                        text = String.format(getString(R.string.goods_list_filter_unit), mUnitText);
+                    }
                 }
             }
             mTVFilter.setText(text);
@@ -414,12 +505,10 @@ public class GoodsFragment extends BaseFragment {
         if (requestCode == REQUEST_CODE_SCAN_CODE) {
             if (resultCode == RESULT_OK) {
                 String barCode = data.getStringExtra("result");
-                Goods item = Api.getGoodsWithCode(barCode);
-                if (item != null) {
-                    startEditFragment(item.getId());
-                } else {
-                    showTip("未找到相应商品");
-                }
+                resetFilter(FILTER_TYPE_SCAN_CODE);
+                mScanText = barCode;
+                refreshFilterView();
+                refreshGoodsView();
             } else if (resultCode == RESULT_CANCELED) {
                 showTip("取消扫码");
             }
