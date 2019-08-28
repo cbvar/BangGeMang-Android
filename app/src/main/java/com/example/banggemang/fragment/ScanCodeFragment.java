@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.example.banggemang.R;
 import com.example.banggemang.base.BaseFragment;
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 
 import butterknife.BindView;
@@ -66,7 +67,7 @@ public class ScanCodeFragment extends BaseFragment implements QRCodeView.Delegat
                     mZXingView.openFlashlight();
                     is_flashlight_open = true;
                     mIVFlashlight.setImageResource(R.drawable.ic_flashlight_open);
-                    color = getResources().getColor(R.color.app_scan_code_primary_dark);
+                    color = QMUIResHelper.getAttrColor(getContext(), R.attr.app_primary_color);
                 }
                 mIVFlashlight.getDrawable().setTint(color);
             }

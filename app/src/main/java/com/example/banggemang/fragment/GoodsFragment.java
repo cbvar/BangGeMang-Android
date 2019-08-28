@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class GoodsFragment extends BaseFragment {
     TextView mTVUnit;
     @BindView(R.id.tv_filter)
     TextView mTVFilter;
+    @BindView(R.id.iv_filter)
+    ImageView mIVFilter;
     @BindView(R.id.iv_search)
     ImageView mIVSearch;
     @BindView(R.id.iv_scan)
@@ -64,6 +67,8 @@ public class GoodsFragment extends BaseFragment {
     LinearLayout mLLUnit;
     @BindView(R.id.ll_scan)
     LinearLayout mLLScan;
+    @BindView(R.id.fl_filter)
+    FrameLayout mFLFilter;
 
     private RecyclerViewAdapter mAdapter;
     private List<Api.GoodsItem> mItems = new ArrayList<>();
@@ -146,6 +151,15 @@ public class GoodsFragment extends BaseFragment {
             public void onClick(View v) {
                 String[] perms = {Manifest.permission.CAMERA};
                 requestPermissions(perms, REQUEST_CODE_PERMISSION);
+            }
+        });
+        mIVFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearFilter();
+                mFLFilter.setVisibility(View.GONE);
+                refreshFilterView();
+                refreshGoodsView();
             }
         });
     }
@@ -451,7 +465,7 @@ public class GoodsFragment extends BaseFragment {
     private void refreshFilterView() {
         int color;
 
-        int unselectedColor = QMUIResHelper.getAttrColor(getContext(), R.attr.qmui_config_color_black);
+        int unselectedColor = QMUIResHelper.getAttrColor(getContext(), R.attr.qmui_config_color_gray_4);
         int selectedColor = QMUIResHelper.getAttrColor(getContext(), R.attr.app_primary_color);
 
         //Category
@@ -476,7 +490,7 @@ public class GoodsFragment extends BaseFragment {
 
         //Tip
         if (mCategoryId1 == NONE && mUnitId == NONE && mSearchText.isEmpty() && mScanText.isEmpty()) {
-            mTVFilter.setVisibility(View.GONE);
+            mFLFilter.setVisibility(View.GONE);
         } else {
             String text;
             if (!mSearchText.isEmpty()) {
@@ -495,7 +509,7 @@ public class GoodsFragment extends BaseFragment {
                 }
             }
             mTVFilter.setText(text);
-            mTVFilter.setVisibility(View.VISIBLE);
+            mFLFilter.setVisibility(View.VISIBLE);
         }
     }
 

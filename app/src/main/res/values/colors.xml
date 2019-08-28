@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_config_color_transparent">#00000000</color>
     <color name="app_config_color_gray_10">#F9F9F9</color>
-    <!--扫码-->
-    <color name="app_scan_code_primary_dark">#f57257</color>
 </resources>

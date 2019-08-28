@@ -95,4 +95,19 @@
         <item name="android:tint">?attr/qmui_config_color_gray_5</item>
     </style>
 
+    <style name="ListFilterItemImageView">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginRight">10px</item>
+        <item name="android:tint">?attr/qmui_config_color_gray_4</item>
+    </style>
+
+    <style name="ListFilterItemTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/qmui_config_color_gray_4</item>
+    </style>
+
 </resources>

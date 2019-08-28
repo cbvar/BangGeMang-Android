@@ -25,19 +25,13 @@
 
                 <ImageView
                     android:id="@+id/iv_category"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10px"
-                    android:src="@drawable/ic_filter"
-                    android:tint="?attr/qmui_config_color_black" />
+                    style="@style/ListFilterItemImageView"
+                    android:src="@drawable/ic_filter" />
 
                 <TextView
                     android:id="@+id/tv_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/category"
-                    android:textAppearance="?android:attr/textAppearanceListItem" />
+                    style="@style/ListFilterItemTextView"
+                    android:text="@string/category" />
             </LinearLayout>
 
             <TextView
@@ -56,19 +50,13 @@
 
                 <ImageView
                     android:id="@+id/iv_unit"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10px"
-                    android:src="@drawable/ic_filter"
-                    android:tint="?attr/qmui_config_color_black" />
+                    style="@style/ListFilterItemImageView"
+                    android:src="@drawable/ic_filter" />
 
                 <TextView
                     android:id="@+id/tv_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/unit"
-                    android:textAppearance="?android:attr/textAppearanceListItem" />
+                    style="@style/ListFilterItemTextView"
+                    android:text="@string/unit" />
             </LinearLayout>
 
             <TextView
@@ -87,18 +75,13 @@
 
                 <ImageView
                     android:id="@+id/iv_search"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10px"
-                    android:src="@drawable/ic_search"
-                    android:tint="?attr/qmui_config_color_black" />
+                    style="@style/ListFilterItemImageView"
+                    android:src="@drawable/ic_search" />
 
                 <TextView
                     android:id="@+id/tv_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search"
-                    android:textAppearance="?android:attr/textAppearanceListItem" />
+                    style="@style/ListFilterItemTextView"
+                    android:text="@string/search" />
             </LinearLayout>
 
             <TextView
@@ -117,19 +100,13 @@
 
                 <ImageView
                     android:id="@+id/iv_scan"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="10px"
-                    android:src="@drawable/ic_scan"
-                    android:tint="?attr/qmui_config_color_black" />
+                    style="@style/ListFilterItemImageView"
+                    android:src="@drawable/ic_scan" />
 
                 <TextView
                     android:id="@+id/tv_scan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/scan_code"
-                    android:textAppearance="?android:attr/textAppearanceListItem" />
+                    style="@style/ListFilterItemTextView"
+                    android:text="@string/scan_code" />
             </LinearLayout>
 
         </LinearLayout>
@@ -139,14 +116,31 @@
             android:layout_height="2px"
             android:background="@color/qmui_drawable_color_list_separator" />
 
-        <TextView
-            android:id="@+id/tv_filter"
+        <FrameLayout
+            android:id="@+id/fl_filter"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:gravity="center"
-            android:paddingLeft="?attr/qmui_content_padding_horizontal"
-            android:paddingRight="?attr/qmui_content_padding_horizontal"
-            android:visibility="gone" />
+            android:background="@color/app_config_color_gray_10"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_filter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="?attr/qmui_config_color_gray_4"
+                android:paddingLeft="?attr/qmui_content_padding_horizontal"
+                android:paddingRight="?attr/qmui_content_padding_horizontal" />
+
+            <ImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="?attr/qmui_content_padding_horizontal"
+                android:src="@drawable/ic_round_close"
+                android:tint="?attr/app_primary_color" />
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
